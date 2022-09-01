@@ -2,10 +2,17 @@
   "name": "restauthserver",
   "version": "0.0.1",
   "description": "REST api server for authentification",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "test": "nodemon index.ts"
+    "dev": "nodemon ./src/index.ts"
   },
   "author": "ZackMercury",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "nodemon": "^2.0.19"
+  }
 }
