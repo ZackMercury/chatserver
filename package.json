@@ -1,0 +1,11 @@
+{
+  "name": "restauthserver",
+  "version": "0.0.1",
+  "description": "REST api server for authentification",
+  "main": "index.ts",
+  "scripts": {
+    "test": "nodemon index.ts"
+  },
+  "author": "ZackMercury",
+  "license": "ISC"
+}
