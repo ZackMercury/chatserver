@@ -1,0 +1,58 @@
+### Register
+
+POST http://localhost:5000/user/signup HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstname": "Zachary",
+    "lastname":  "Litvinenko",
+    "password": "I like chocolate",
+    "email":     "zackmercury@hotmail.com",
+    "birthDate": "Mon, 14 Oct 1996 21:00:00 GMT"
+}
+
+### Login (Wrong password)
+POST http://localhost:5000/user/signin HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "zackmercury@hotmail.com",
+    "password": "I like chocolates"
+}
+
+### Login
+POST http://localhost:5000/user/signin HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "zackmercury@hotmail.com",
+    "password": "I like chocolate"
+}
+
+### Logout
+
+DELETE http://localhost:5000/user/logout HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MzE4OTFjZWU3YmU5NzIyMTQzOGQ2NzEiLCJpYXQiOjE2NjI1NTU3NTQsImV4cCI6MTY2MjU1NjY1NH0.dvKKR-N0zeE8bnCiuMUdAnL90nCa-2qQubkBBAAihY0
+
+### Refresh
+
+PATCH http://localhost:5000/user/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MzE4OTFjZWU3YmU5NzIyMTQzOGQ2NzEiLCJpYXQiOjE2NjI1NTYxODksImV4cCI6MTY2MzE2MDk4OX0.zoSthjNJ8cOjdCnXytkmHJLoP3tNliKROSzO5PHv9M0
+
+### Profile
+
+GET http://localhost:5000/user/profile HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MzE4YjVhYWVhZWVmYmQ1MDliODg5NzgiLCJpcCI6Ijo6ZmZmZjoxMjcuMC4wLjEiLCJ1c2VyQWdlbnQiOiJ2c2NvZGUtcmVzdGNsaWVudCIsImxvY2F0aW9uIjoibG9jYWxob3N0IiwiaWF0IjoxNjYyNTg3MTQ0LCJleHAiOjE2NjI1ODgwNDR9.QH1BqBtMgsHMx8OUGcmMRIBZL4VVOeVQCZDiLNh0bW8
+
+### Kill session
+DELETE http://localhost:5000/user/killsession HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MzE4YjVhYWVhZWVmYmQ1MDliODg5NzgiLCJpcCI6Ijo6ZmZmZjoxMjcuMC4wLjEiLCJ1c2VyQWdlbnQiOiJ2c2NvZGUtcmVzdGNsaWVudCIsImxvY2F0aW9uIjoibG9jYWxob3N0IiwiaWF0IjoxNjYyNTg3MTQ0LCJleHAiOjE2NjI1ODgwNDR9.QH1BqBtMgsHMx8OUGcmMRIBZL4VVOeVQCZDiLNh0bW8
+
+{
+    "sessionRt": "..."
+}
+
+### Kill all sessions
+
+DELETE http://localhost:5000/user/killallsessions HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MzE4YjVhYWVhZWVmYmQ1MDliODg5NzgiLCJpcCI6Ijo6ZmZmZjoxMjcuMC4wLjEiLCJ1c2VyQWdlbnQiOiJ2c2NvZGUtcmVzdGNsaWVudCIsImxvY2F0aW9uIjoibG9jYWxob3N0IiwiaWF0IjoxNjYyNTg2ODIxLCJleHAiOjE2NjI1ODc3MjF9.pZIer6-HS9-FvFvWzr30pM4Ns-9nI3h_p4R8mJeBwl0
