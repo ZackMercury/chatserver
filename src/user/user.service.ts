@@ -6,7 +6,7 @@ import { createHash, HashOptions } from 'crypto';
 import { JwtService } from '@nestjs/jwt';
 import AuthFailedException from '../errors/AuthFailedException';
 import { SessionHash, SessionHashDocument } from './session-hash.schema';
-import { JwtPayload } from '../strategies';
+import { JwtPayload } from '../common/strategies';
 import { ConfigService } from '@nestjs/config';
 
 export interface SignUpResponse {

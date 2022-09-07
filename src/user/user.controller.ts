@@ -4,8 +4,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { Payload } from '../common/decorators/Payload.decorator';
 import { Token } from '../common/decorators/Token.decorator';
 import { UserID } from '../common/decorators/UserID.decorator';
-import { AtGuard, RtGuard } from '../guards';
-import { JwtPayload } from '../strategies';
+import { AtGuard, RtGuard } from '../common/guards';
+import { JwtPayload } from '../common/strategies';
 import { SignInResponse, SignUpResponse, UserService } from './user.service';
 import * as geoip from 'geoip-lite';
 
