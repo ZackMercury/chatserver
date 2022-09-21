@@ -17,10 +17,7 @@ export class User {
   @Prop({required: true})
   password: string;
 
-  @Prop({
-    validate: /\d\d [A-Z][a-z][a-z] \d\d\d\d \d\d:\d\d:\d\d \w\w\w/g,
-    required: true
-  })
+  @Prop({required: true})
   birthDate: string;
 
   @Prop({

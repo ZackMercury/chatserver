@@ -89,9 +89,9 @@ export class UserController {
     @UseGuards(AtGuard)
     @Delete("killsession")
     @HttpCode(HttpStatus.OK)
-    async killSession(@Body("sessionRt") sessionRt: string,
+    async killSession(@Body("sessionId") sessionId: string,
                       @UserID()          userID: string) {
-        return this.userService.killSession(userID, sessionRt);
+        return this.userService.killSession(userID, sessionId);
     }
 
     @UseGuards(AtGuard)
@@ -105,7 +105,7 @@ export class UserController {
     @Patch("refresh")
     @HttpCode(HttpStatus.OK)
     async refreshTokens (@Token()   rt: string,
-                         @Payload() payload: JwtPayload) {
+                         @Payload() payload: JwtPayload & {exp: string}) {
         return this.userService.refreshTokens(rt, payload);
     }
 

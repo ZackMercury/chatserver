@@ -1,10 +1,10 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, HttpException, Injectable } from '@nestjs/common';
 import { User, UserDocument, UserSchema } from './user.schema';
 import { InjectModel, ModelDefinition } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { createHash, HashOptions } from 'crypto';
 import { JwtService } from '@nestjs/jwt';
-import AuthFailedException from '../errors/AuthFailedException';
+import AuthFailedException from '../common/errors/AuthFailedException';
 import { SessionHash, SessionHashDocument } from './session-hash.schema';
 import { JwtPayload } from '../common/strategies';
 import { ConfigService } from '@nestjs/config';
@@ -107,11 +107,15 @@ export class UserService {
         await this.deleteAllSessionHashes(userID);
     }
     
-    async refreshTokens(rt: string, payload: JwtPayload) {
+    async refreshTokens(rt: string, payload: JwtPayload & {exp: string}) {
         const hashRt = hash(rt);
         const session: SessionHashDocument = await this.sessionHashModel.findOne({hashRt});
         
+        if (!session)
+            throw new HttpException("RT is invalid", 400)
+
         const tokens = await this.getTokens(payload);
+
         session.hashAt = hash(tokens.accessToken);
         session.hashRt = hash(tokens.refreshToken);
         
@@ -125,7 +129,7 @@ export class UserService {
     }
     
     async profile(userID: string) {
-        const userDoc = await this.userModel.findOne({id: userID});
+        const userDoc = await this.userModel.findOne({ _id: userID});
         const user = {
             firstname: userDoc.firstname,
             lastname: userDoc.lastname,
@@ -144,9 +148,8 @@ export class UserService {
         }
     }
 
-    async killSession(userID: string, rt: string) {
-        const hashRt = hash(rt);
-        await this.sessionHashModel.deleteOne({ user: userID, hashRt });
+    async killSession(userID: string, sessionId: string) {
+        await this.sessionHashModel.deleteOne({ user: userID, _id: sessionId });
     }
 
     async addSessionHash (userID: string, rt: string, at: string, payload: JwtPayload) {
@@ -170,7 +173,21 @@ export class UserService {
         await session.save();
     }
 
-    async getTokens(payload: JwtPayload) {
+    async populateUsers(userIDs: string[], fields: string[]): Promise<any[]> {
+        const conditions = userIDs.map(id => ({id}))
+
+        const users = await this.userModel.find().where().or(conditions);
+
+        users.forEach(user => Object.keys(user).forEach(key => { 
+                                            if (fields.includes(key)) delete user[key];
+                                        }));
+        return users;
+    }
+
+    async getTokens(payload: JwtPayload & {exp?: string, iat?: number}) {
+        delete payload.exp;
+        delete payload.iat;
+
         const [accessToken, refreshToken] = await Promise.all([
             this.jwtService.signAsync(payload, {
                 secret: this.configService.get<string>("JWT_AT_SECRET"),
